@@ -16,9 +16,11 @@ namespace TheHardestGame.GameEngine.Game
 		public double RectHeight { get; private set; }
 		public double RectWidth { get; private set; }
 
-		private readonly EngineRectangle[] _forbidenZones;
+		private readonly EngineRectangle[] _forbidenZones;        
 
-		public States State { get; private set; }
+		// Review remark from IP: 
+        // seems like there no "get" section usage within the whole project
+        public States State { get; private set; }
 
 		#endregion
 
@@ -31,9 +33,17 @@ namespace TheHardestGame.GameEngine.Game
 
 		#region Constructors
 
-		public EngineGame(double precision = 10000.0)
+        // Review remark from IP:
+        // why not to avoid the magic numbers in default parameter ... see below
+
+        //public const double C_DefaultPrecision = 10000.0;
+        //public EngineGame(double precision = C_DefaultPrecision)
+        
+        public EngineGame(double precision = 10000.0)
 		{
-			this.Width = precision;
+            // Review remark from IP:
+            // think that frequent "this" usage is excessive in class's own property access context 
+            this.Width = precision;
 			this.Height = this.Width / 20 * 6;
 
 			this.RectWidth = this.Width / 20;
@@ -59,9 +69,12 @@ namespace TheHardestGame.GameEngine.Game
 			return zones;
 		}
 
-		public bool MoveRectangle(ref EngineRectangle er,double offset, bool barrier = false)
+		public bool MoveRectangle(ref EngineRectangle er, double offset, bool barrier = false)
 		{
-			if (this.CanMoveRectangle(er, offset))
+            // Review remark from IP:
+            // in most cases it's most preferable to have ONLY ONE place to return from function (point of exit)
+            // at least, the single one variable for the value to return: multiple "return" operators reduce the code maintainability
+            if (this.CanMoveRectangle(er, offset))
 			{
 				er.Move(offset);
 				if (er.X >= this.RectWidth * 16)
@@ -111,7 +124,9 @@ namespace TheHardestGame.GameEngine.Game
 
 			}
 
-			if ((erTemp.X < 0) || (erTemp.Y < 0))
+            // Review remark from IP:
+            // see my remark above (about the multiple "return" usage)
+            if ((erTemp.X < 0) || (erTemp.Y < 0))
 			{
 				return false;
 			}
@@ -150,10 +165,11 @@ namespace TheHardestGame.GameEngine.Game
 			return false;
 		}
 
-
 		public EngineRectangle GetStartSquare()
 		{
-			return new EngineRectangle(new EnginePoint(this.RectWidth * 1.5, this.RectHeight * 2.5), new EngineSize(this.RectHeight * 0.8, this.RectWidth * 0.8));
+            // Review remark from IP:
+            // and the same "magic multipliers" again )))
+            return new EngineRectangle(new EnginePoint(this.RectWidth * 1.5, this.RectHeight * 2.5), new EngineSize(this.RectHeight * 0.8, this.RectWidth * 0.8));
 		}
 
 		public EngineRectangle[] GetStartBarriers()
@@ -167,7 +183,9 @@ namespace TheHardestGame.GameEngine.Game
 			return barriers;
 		}
 
-		public void CheckDeath(EngineRectangle er, EngineRectangle[] barriers)
+        // Review remark from IP:
+        // the code readability would be much more acceptable if using much less sophisticated operators in conditions
+        public void CheckDeath(EngineRectangle er, EngineRectangle[] barriers)
 		{
 			EnginePoint[] points = new EnginePoint[barriers.Length];
 			

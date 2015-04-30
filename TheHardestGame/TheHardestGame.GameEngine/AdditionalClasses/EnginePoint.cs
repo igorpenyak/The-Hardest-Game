@@ -2,6 +2,9 @@
 
 namespace TheHardestGame.GameEngine.AdditionalClasses
 {
+    // Review remark from IP:
+    // it would be nice to switch to the relevant standart C# classes that match your needs
+    // for example, the ones form System.Drawing namespace - Point, Size, Rect, etc ...
     public class EnginePoint
 	{
 		#region Fields
