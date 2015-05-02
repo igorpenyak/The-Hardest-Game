@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace TheHardestGame.ConsoleUI
 {
-	internal static class Syncronization
+	// Review remark from IP:
+    // оскільки даний клас використовується фактично лише для допоміжних потреб (синхронізації),
+    // то цілком логічно було б оформити його в окрему підпапку проекту (наприклад, "Utils")
+    internal static class Syncronization
 	{
 		private static readonly object _sync = new object();
 

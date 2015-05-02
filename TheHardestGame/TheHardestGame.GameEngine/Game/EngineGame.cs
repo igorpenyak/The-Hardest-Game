@@ -19,7 +19,7 @@ namespace TheHardestGame.GameEngine.Game
 		private readonly EngineRectangle[] _forbidenZones;        
 
 		// Review remark from IP: 
-        // seems like there no "get" section usage within the whole project
+        // схоже на те, що відповідна "get"-секція в проекті не використовується (р-тати пошуку через "Find All")
         public States State { get; private set; }
 
 		#endregion
@@ -34,15 +34,12 @@ namespace TheHardestGame.GameEngine.Game
 		#region Constructors
 
         // Review remark from IP:
-        // why not to avoid the magic numbers in default parameter ... see below
-
+        // чому б не уникнути використання "магічних чисел" хоча б через використання відповідних констант ...
         //public const double C_DefaultPrecision = 10000.0;
         //public EngineGame(double precision = C_DefaultPrecision)
         
         public EngineGame(double precision = 10000.0)
 		{
-            // Review remark from IP:
-            // think that frequent "this" usage is excessive in class's own property access context 
             this.Width = precision;
 			this.Height = this.Width / 20 * 6;
 
@@ -72,8 +69,8 @@ namespace TheHardestGame.GameEngine.Game
 		public bool MoveRectangle(ref EngineRectangle er, double offset, bool barrier = false)
 		{
             // Review remark from IP:
-            // in most cases it's most preferable to have ONLY ONE place to return from function (point of exit)
-            // at least, the single one variable for the value to return: multiple "return" operators reduce the code maintainability
+            // в більшості випадків слід прагнути до мінімізації к-тей операторів "return"  (точка виходу) в ф-ціях,
+            // множинні галуження різко зменшують читабельність та супровід коду
             if (this.CanMoveRectangle(er, offset))
 			{
 				er.Move(offset);
@@ -125,7 +122,7 @@ namespace TheHardestGame.GameEngine.Game
 			}
 
             // Review remark from IP:
-            // see my remark above (about the multiple "return" usage)
+            // див. мій попередній коментар відносно множиності в-ння о-рів "return"
             if ((erTemp.X < 0) || (erTemp.Y < 0))
 			{
 				return false;
@@ -165,10 +162,12 @@ namespace TheHardestGame.GameEngine.Game
 			return false;
 		}
 
-		public EngineRectangle GetStartSquare()
+		// Review remark from IP:
+        // можливо, варто було б переконвертувати метод в пропертю  
+        public EngineRectangle GetStartSquare()
 		{
             // Review remark from IP:
-            // and the same "magic multipliers" again )))
+            // і знову "магічні числа" )))
             return new EngineRectangle(new EnginePoint(this.RectWidth * 1.5, this.RectHeight * 2.5), new EngineSize(this.RectHeight * 0.8, this.RectWidth * 0.8));
 		}
 
@@ -183,8 +182,6 @@ namespace TheHardestGame.GameEngine.Game
 			return barriers;
 		}
 
-        // Review remark from IP:
-        // the code readability would be much more acceptable if using much less sophisticated operators in conditions
         public void CheckDeath(EngineRectangle er, EngineRectangle[] barriers)
 		{
 			EnginePoint[] points = new EnginePoint[barriers.Length];
